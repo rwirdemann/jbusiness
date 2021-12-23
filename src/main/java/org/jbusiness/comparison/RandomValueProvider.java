@@ -1,8 +1,7 @@
-package org.bhealth.comparison;
+package org.jbusiness.comparison;
 
 import java.math.BigDecimal;
 import java.util.Random;
-import java.util.function.IntSupplier;
 
 public record RandomValueProvider(int lowerBound, int upperBound) implements ValueProvider {
 

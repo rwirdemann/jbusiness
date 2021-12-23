@@ -1,4 +1,4 @@
-package org.bhealth.comparison;
+package org.jbusiness.comparison;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

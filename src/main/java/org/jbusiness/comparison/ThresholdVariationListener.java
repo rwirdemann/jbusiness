@@ -1,4 +1,4 @@
-package org.bhealth.comparison;
+package org.jbusiness.comparison;
 
 import java.math.BigDecimal;
 
