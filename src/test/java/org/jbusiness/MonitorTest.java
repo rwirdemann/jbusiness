@@ -1,4 +1,4 @@
-package org.jbusiness.comparison;
+package org.jbusiness;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,14 +17,14 @@ class MonitorTest {
     private VariationListener listener;
 
     @Mock
-    private ValueProvider valueProvider;
+    private DataProvider dataProvider;
 
     @Test
     void shouldCallVariationListenerAfterBothWindowsFilled() {
         Monitor m = Monitor.builder()
                 .windowSize(1)
                 .pollingInterval(1000)
-                .valueProvider(valueProvider)
+                .dataProvider(dataProvider)
                 .variationListener(listener).build();
         m.addValue(new BigDecimal("2"));
         m.addValue(new BigDecimal("2"));
@@ -36,7 +36,25 @@ class MonitorTest {
         Monitor m = Monitor.builder()
                 .windowSize(2)
                 .pollingInterval(1000)
-                .valueProvider(valueProvider)
+                .dataProvider(dataProvider)
+                .variationListener(listener).build();
+        m.addValue(new BigDecimal("3"));
+        m.addValue(new BigDecimal("3"));
+        m.addValue(new BigDecimal("1"));
+        m.addValue(new BigDecimal("1"));
+        verify(listener, Mockito.times(1)).handle(new BigDecimal("67.00"));
+
+        m.addValue(new BigDecimal("1"));
+        m.addValue(new BigDecimal("1"));
+        verify(listener, Mockito.times(1)).handle(BigDecimal.ZERO);
+    }
+
+    @Test
+    void should() {
+        Monitor m = Monitor.builder()
+                .windowSize(2)
+                .pollingInterval(1000)
+                .dataProvider(dataProvider)
                 .variationListener(listener).build();
         m.addValue(new BigDecimal("3"));
         m.addValue(new BigDecimal("3"));

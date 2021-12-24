@@ -1,6 +1,7 @@
-package org.jbusiness.comparison;
+package org.jbusiness;
 
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -8,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
+@Slf4j
 public class Monitor {
     private final int windowSize;
     private final long pollingInterval;
-    private final ValueProvider valueProvider;
+    private final DataProvider dataProvider;
     private final VariationListener variationListener;
 
     private List<BigDecimal> currentValues;
@@ -51,7 +53,7 @@ public class Monitor {
     private void compare() {
         BigDecimal divide = nextSum().divide(currentSum(), new MathContext(2));
         BigDecimal variation = (BigDecimal.ONE.subtract(divide)).multiply(new BigDecimal("100"));
-        System.out.println("currentValues = " + currentValues + ":" + currentSum() + " nextValues = " + nextValues + ":" + nextSum());
+        log.info("current {} : {} next {} : {}", currentValues, currentSum(), nextValues, nextSum());
         variationListener.handle(variation);
     }
 
@@ -65,7 +67,7 @@ public class Monitor {
 
     public void run() throws InterruptedException {
         while (true) {
-            addValue(valueProvider.get());
+            addValue(dataProvider.get());
             Thread.sleep(pollingInterval);
         }
     }

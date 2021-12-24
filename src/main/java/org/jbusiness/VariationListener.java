@@ -1,4 +1,4 @@
-package org.jbusiness.comparison;
+package org.jbusiness;
 
 import java.math.BigDecimal;
 
