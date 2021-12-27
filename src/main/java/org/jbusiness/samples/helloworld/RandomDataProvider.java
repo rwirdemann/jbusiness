@@ -1,4 +1,4 @@
-package org.jbusiness.example;
+package org.jbusiness.samples.helloworld;
 
 import org.jbusiness.DataProvider;
 
@@ -10,7 +10,7 @@ public record RandomDataProvider(int lowerBound, int upperBound) implements Data
     @Override
     public BigDecimal get() {
         Random randomObj = new Random();
-        int i = randomObj.ints(lowerBound, upperBound).findFirst().orElseGet(() -> 0);
+        int i = randomObj.ints(lowerBound, upperBound).findFirst().orElse(0);
         return new BigDecimal(i);
     }
 }

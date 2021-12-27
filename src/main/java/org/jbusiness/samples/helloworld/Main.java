@@ -1,4 +1,4 @@
-package org.jbusiness.example;
+package org.jbusiness.samples.helloworld;
 
 import org.jbusiness.*;
 
