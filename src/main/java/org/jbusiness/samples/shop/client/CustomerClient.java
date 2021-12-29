@@ -12,11 +12,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @SpringBootApplication
 @Slf4j
-public class Buyer {
+public class CustomerClient {
     public static void main(String[] args) {
-        SpringApplication.run(Buyer.class, args);
+        SpringApplication.run(CustomerClient.class, args);
     }
 
     @Bean
@@ -27,7 +29,7 @@ public class Buyer {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
-            Payment payment = new Payment();
+            Payment payment = new Payment(UUID.randomUUID().toString(), UUID.randomUUID().toString());
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Payment> request = new HttpEntity<>(payment, headers);

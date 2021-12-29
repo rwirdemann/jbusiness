@@ -1,9 +1,23 @@
 package org.jbusiness.samples.shop.service;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Data
 public class Payment {
     private String uid;
-    private long orderId;
+    private String  orderUid;
+
+    @JsonCreator
+    public Payment(@JsonProperty("uid") String uid, @JsonProperty("orderUid") String orderUid) {
+        this.uid = uid;
+        this.orderUid = orderUid;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getOrderUid() {
+        return orderUid;
+    }
 }
