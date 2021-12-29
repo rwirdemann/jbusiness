@@ -1,17 +1,25 @@
 package org.jbusiness.samples.shop.service;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
+@Entity
 public class Payment {
-    private String uid;
-    private String  orderUid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-    @JsonCreator
-    public Payment(@JsonProperty("uid") String uid, @JsonProperty("orderUid") String orderUid) {
-        this.uid = uid;
-        this.orderUid = orderUid;
-    }
+    @JsonProperty
+    private String uid;
+
+    @JsonProperty
+    private String  orderUid;
 
     public String getUid() {
         return uid;
@@ -19,5 +27,13 @@ public class Payment {
 
     public String getOrderUid() {
         return orderUid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setOrderUid(String orderUid) {
+        this.orderUid = orderUid;
     }
 }

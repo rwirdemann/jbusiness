@@ -1,6 +1,7 @@
 package org.jbusiness.samples.shop.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jbusiness.samples.shop.service.Order;
 import org.jbusiness.samples.shop.service.Payment;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,7 +30,11 @@ public class CustomerClient {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
-            Payment payment = new Payment(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+            Order order = new Order();
+            order.setUid(UUID.randomUUID().toString());
+            Payment payment = new Payment();
+            payment.setOrderUid(order.getUid());
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
