@@ -13,8 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.UUID;
-
 @SpringBootApplication
 @Slf4j
 public class CustomerClient {
@@ -30,16 +28,22 @@ public class CustomerClient {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
-            Order order = new Order();
-            order.setUid(UUID.randomUUID().toString());
-            Payment payment = new Payment();
-            payment.setOrderUid(order.getUid());
+            for (; ; ) {
+                Order order = new Order();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                Order created = restTemplate.postForObject("http://localhost:8080/orders", new HttpEntity<>(order, headers), Order.class);
+                log.info("created {}", created);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
-            String url = restTemplate.postForObject("http://localhost:8080/payments", request, String.class);
-            log.info("payment {}", url);
+                Payment payment = new Payment();
+                payment.setOrderUid(created.getUid());
+                HttpHeaders paymentHeaders = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                String url = restTemplate.postForObject("http://localhost:8080/payments", new HttpEntity<>(payment, paymentHeaders), String.class);
+                log.info("payment {}", url);
+
+                Thread.sleep(1000);
+            }
         };
     }
 }

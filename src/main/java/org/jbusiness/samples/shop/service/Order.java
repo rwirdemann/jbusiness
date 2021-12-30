@@ -1,5 +1,6 @@
 package org.jbusiness.samples.shop.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @JsonProperty
     private String uid;
 
     public long getId() {

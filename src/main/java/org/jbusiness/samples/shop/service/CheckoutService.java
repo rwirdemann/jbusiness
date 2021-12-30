@@ -35,4 +35,11 @@ public class CheckoutService {
         Order newOrder = orderRepository.save(o);
         log.info("order created: {}", newOrder);
     }
+
+    public Order createOrder(Order order) {
+        order.setUid(UUID.randomUUID().toString());
+        Order created = orderRepository.save(order);
+        log.info("order created: {}", created);
+        return created;
+    }
 }
